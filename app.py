@@ -60,9 +60,9 @@ def main():
 
         # Display prediction
         if prediction[0] == 1:
-            st.write("Predicted News: Health News")
-        else:
             st.write("Predicted News: Travel News")
+        else:
+            st.write("Predicted News: Health News")
 
 # Run the app
 if __name__ == '__main__':
