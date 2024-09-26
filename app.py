@@ -36,7 +36,7 @@ def preprocess_text(text):
 # Main function to run the Streamlit app
 def main():
     st.title("Text Preprocessing and Classification App")
-    st.write("This app preprocesses text and makes predictions using a pre-trained Logistic Regression Model.")
+    st.write("Aplikasi ini merupakan menggunakan preprocesses text dan membuat prediksi menggunakan pre-trained Logistic Regression Model.")
 
     # Load the pre-trained Logistic Regression model
     with open('logistic_model', 'rb') as f:
@@ -60,9 +60,9 @@ def main():
 
         # Display prediction
         if prediction[0] == 1:
-            st.write("Predicted News: Travel News")
+            st.write("Predicted Berita: Travel News")
         else:
-            st.write("Predicted News: Health News")
+            st.write("Predicted Berita: Health News")
 
 # Run the app
 if __name__ == '__main__':
