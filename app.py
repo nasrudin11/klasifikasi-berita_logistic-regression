@@ -39,8 +39,8 @@ def main():
     st.title("Text Preprocessing and Classification App")
     st.write("This app preprocesses text and makes predictions using a pre-trained Logistic Regression Model.")
 
-    # Load the pre-trained SVM model
-    with open('logistic_regression.pkl', 'rb') as f:
+    # Load the pre-trained Logistic Regression model
+    with open('logistic_model', 'rb') as f:
         logistic_regression_model = pickle.load(f)
 
     # Load the pre-trained TfidfVectorizer
