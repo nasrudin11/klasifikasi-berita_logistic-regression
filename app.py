@@ -1,21 +1,18 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize  
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
 import pickle
 import nltk
 
 # Download NLTK resources (run once)
 nltk.download('stopwords')
+nltk.download('punkt') 
 
 # Function for text preprocessing
 def preprocess_text(text):
