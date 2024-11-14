@@ -1,4 +1,4 @@
-import streamlit as st
+import gradio as gr
 import pandas as pd
 import numpy as np
 from nltk.corpus import stopwords
@@ -12,7 +12,7 @@ import nltk
 
 # Download NLTK resources (run once)
 nltk.download('stopwords')
-nltk.download('punkt') 
+nltk.download('punkt')
 
 # Function for text preprocessing
 def preprocess_text(text):
@@ -33,37 +33,29 @@ def preprocess_text(text):
     preprocessed_text = ' '.join(stemmed_tokens)
     return preprocessed_text
 
-# Main function to run the Streamlit app
-def main():
-    st.title("Text Preprocessing and Classification App")
-    st.write("Aplikasi ini merupakan menggunakan preprocesses text dan membuat prediksi menggunakan pre-trained Logistic Regression Model.")
+# Load the pre-trained Logistic Regression model and TfidfVectorizer
+with open('logistic_model', 'rb') as f:
+    logistic_regression_model = pickle.load(f)
 
-    # Load the pre-trained Logistic Regression model
-    with open('logistic_model', 'rb') as f:
-        logistic_regression_model = pickle.load(f)
+with open('tfidf_vectorizer.pkl', 'rb') as f:
+    vectorizer = pickle.load(f)
 
-    # Load the pre-trained TfidfVectorizer
-    with open('tfidf_vectorizer.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)
+# Function for prediction
+def classify_news(text_input):
+    # Preprocess the text
+    preprocessed_text = preprocess_text(text_input)
+    # Vectorize the preprocessed text
+    X_text = vectorizer.transform([preprocessed_text])
+    # Make prediction
+    prediction = logistic_regression_model.predict(X_text)
+    # Return the prediction result
+    return "Prediksi Berita: Travel News" if prediction[0] == 1 else "Prediksi Berita: Health News"
 
-    # Get user input
-    text_input = st.text_input("Enter some news text:")
-    if text_input:
-        # Preprocess the text
-        preprocessed_text = preprocess_text(text_input)
+# Set up Gradio interface
+interface = gr.Interface(fn=classify_news, inputs="text", outputs="text",
+                         title="Text Preprocessing and Classification App",
+                         description="Aplikasi ini menggunakan preprocessing text dan membuat prediksi menggunakan pre-trained Logistic Regression Model.")
 
-        # Vectorize the preprocessed text
-        X_text = vectorizer.transform([preprocessed_text])
-
-        # Make prediction
-        prediction = logistic_regression_model.predict(X_text)
-
-        # Display prediction
-        if prediction[0] == 1:
-            st.write("Prediksi Berita: Travel News")
-        else:
-            st.write("Prediksi Berita: Health News")
-
-# Run the app
-if __name__ == '__main__':
-    main()
+# Launch the Gradio app
+if __name__ == "__main__":
+    interface.launch()
